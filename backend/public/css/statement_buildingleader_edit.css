@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.title {
+    margin: 20px;
+}
+
+.statement {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+.statement th, .statement td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.buttons {
+    margin: 20px;
+}
+
+.buttons a {
+    color: #333;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.edit-btn {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Edit Pop-up Styling */
+.edit-popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.edit-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.edit-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-close:hover,
+.edit-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

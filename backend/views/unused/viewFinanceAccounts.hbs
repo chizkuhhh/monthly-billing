@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="viewFinanceAccounts.css">
+    <link rel="stylesheet" href="modal.css">
+    <title>View Account Details</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#" class="nav-link">Home</a> |
+        <a href="#" class="nav-link">LOGOUT</a>
+    </div>
+    <div class="options">
+        <a href="#" class="nav-link">Tenant Accounts</a> |
+        <a href="#" class="nav-link">Billings</a> |
+        <a href="#" class="nav-link">Reports</a> |
+        <a href="#" class="nav-link">Profile</a> |
+    </div>
+
+    <div class="filter-section">
+        <input type="text" id="searchTenant" placeholder="Search by tenant name..." onkeyup="filterTenants()">
+        <select id="billingPeriodFilter" onchange="filterByBillingPeriod()">
+            <option value="">Select Billing Period</option>
+            {{#each billingPeriods}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <select id="buildingFilter" onchange="filterByBuilding()">
+            <option value="">Select Building</option>
+            {{#each buildings}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <select id="floorFilter" onchange="filterByFloor()">
+            <option value="">Select Floor</option>
+            {{#each floors}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="main-content">
+        <h2>Account Details</h2>
+        <table class="statement">
+            <thead>
+                <tr>
+                    <th class="table-header">REF no</th>
+                    <th class="table-header">Account Name</th>
+                    <th class="table-header">CU.M</th>
+                    <th class="table-header">BASIC CHARGE</th>
+                    <th class="table-header">SYSTEM LOSS CHARGE</th>
+                    <th class="table-header">WATER MAINTENANCE FUND</th>
+                    <th class="table-header">CURRENT CHARGES</th>
+                    <th class="table-header">PREVIOUS UNPAID ACCOUNT</th>
+                    <th class="table-header">OTHER CHARGES</th>
+                    <th class="table-header">TOTAL AMOUNT DUE</th>
+                    <th class="table-header">REMARKS</th>
+                </tr>
+            </thead>
+            <tbody id="tenantTable">
+                {{#each tenants}}
+                <tr class="tenant-row" data-tenant-name="{{accountName}}" data-billing-period="{{billingPeriod}}" data-building="{{building}}" data-floor="{{floor}}">
+                    <td class="table-cell">{{refNo}}</td>
+                    <td class="table-cell">{{accountName}}</td>
+                    <td class="table-cell">{{cuM}}</td>
+                    <td class="table-cell">{{basicCharge}}</td>
+                    <td class="table-cell">{{systemLossCharge}}</td>
+                    <td class="table-cell">{{waterMaintenanceFund}}</td>
+                    <td class="table-cell">{{currentCharges}}</td>
+                    <td class="table-cell">{{previousUnpaidAccount}}</td>
+                    <td class="table-cell">{{otherCharges}}</td>
+                    <td class="table-cell">{{totalAmountDue}}</td>
+                    <td class="table-cell">{{remarks}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="viewFinanceAccounts.js"></script>
+</body>
+</html>

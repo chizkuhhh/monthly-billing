@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h2>Billing</h2>
+    <hr>
+    <h3>{{#if user}}{{ user.firstname }} {{ user.lastname }}'s Billing{{else}}Billing Details{{/if}}</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Billing Cycle</th>
+                <th>Amount Due</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each billings}}
+            <tr>
+                <td>{{this.billing_period.[0]}} - {{this.billing_period.[1]}}</td>
+                <td>{{this.total_due}}</td>
+                <td>{{this.bill_date}}</td>
+                <td>{{this.payment_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button onclick="previousPage()">Previous</button>
+        <button onclick="nextPage()">Next</button>
+    </div>
+    <hr>
+    <script src="/js/script.js"></script>
+</body>
+</html>

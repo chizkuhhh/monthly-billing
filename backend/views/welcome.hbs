@@ -1,0 +1,67 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, {{user.firstname}} {{user.lastname}}!</h1>
+    </header>
+    <main>
+      <p>{{user.role}} view</p>
+
+      <form id="userRoleForm">
+        <input
+          type="hidden"
+          id="loggedIn"
+          name="loggedIn"
+          value="{{user._id}}"
+        />
+
+        {{! for floor leaders or building leaders }}
+        {{#if floor_leader}}
+          <input
+            type="hidden"
+            id="floorLeaderBuildingNum"
+            name="floorLeaderBuildingNum"
+            value="{{floor_leader.building_num}}"
+          />
+          <input
+            type="hidden"
+            id="floorLeaderFloorNum"
+            name="floorLeaderFloorNum"
+            value="{{floor_leader.floor_num}}"
+          />
+        {{/if}}
+
+        {{#if building_leader}}
+          <input
+            type="hidden"
+            id="buildingLeaderBuildingNum"
+            name="buildingLeaderBuildingNum"
+            value="{{building_leader.building_num}}"
+          />
+        {{/if}}
+      </form>
+
+    </main>
+    {{! <footer>
+        <p>&copy; APOAMF Billing System</p>
+        <div class="footer-links">
+            <a href="#" class="github">Github</a>
+            <a href="#" class="google-doc">Google Document</a>
+        </div>
+    </footer>
+    }}
+    <script>
+      window.userRole = "{{userRole}}"; window.userId = "{{userId}}";
+    </script>
+    <script src="/script/script.js"></script>
+
+  </body>
+</html>

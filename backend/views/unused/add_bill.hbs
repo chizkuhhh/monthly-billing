@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Bill Entry</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="add_bill.css">
+</head>
+<body>
+<h2 class="title">Generate New Bill Entry</h2>
+
+<div class="form-container">
+    <form id="billing-form">
+        {{!-- <input type="text" id="bill-no" placeholder="Bill no">
+        <input type="text" id="ref-no" placeholder="REF no">
+        <input type="text" id="account-name" placeholder="Account Name">
+        <input type="text" id="unit-no" placeholder="UNIT NO">
+        <input type="text" id="basic-charge" placeholder="BASIC CHARGE">
+        <input type="text" id="system-loss-charge" placeholder="SYSTEM LOSS CHARGE">
+        <input type="text" id="water-maintenance-fund" placeholder="WATER MAINTENANCE FUND">
+        <input type="text" id="cu-m" placeholder="CU.M">
+        <input type="text" id="meter-no" placeholder="METER NO.">
+        <input type="text" id="present-meter-reading" placeholder="PRESENT METER READING">
+        <input type="text" id="previous-meter-reading" placeholder="PREVIOUS METER READING">
+        <input type="text" id="current-charges" placeholder="CURRENT CHARGES">
+        <input type="text" id="previous-unpaid-account" placeholder="PREVIOUS UNPAID ACCOUNT">
+        <input type="text" id="other-charges" placeholder="OTHER CHARGES">
+        <input type="text" id="total-amount-due" placeholder="TOTAL AMOUNT DUE">
+        <input type="text" id="cr-number" placeholder="CR NUMBER">
+        <input type="text" id="remarks" placeholder="REMARKS">
+        <button type="button" onclick="confirmChanges()">Confirm Changes</button>
+        <button type="button" onclick="cancelEdits()">Cancel</button> --}}
+
+        <input type="number" id="present-meter-reading">
+        <input type="number" id="previous-meter-reading">
+    </form>
+</div>
+
+<!-- Include the external JavaScript file -->
+<script src="add_bill.js"></script>
+</body>
+</html>

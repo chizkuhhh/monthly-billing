@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Information</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#" class="nav-link">Home</a> |
+    <a href="#" class="nav-link">Tenant Accounts</a> |
+    <a href="#" class="nav-link">Billings</a> |
+    <a href="#" class="nav-link">Reports</a> |
+    <a href="#" class="nav-link">Profile</a> |
+    <a href="#" class="nav-link">LOGOUT</a>
+</div>
+
+<h2 class="title">Bill no: 25947-24</h2>
+
+<table class="statement">
+    <thead>
+        <tr>
+            <th class="table-header">REF no</th>
+            <th class="table-header">Account Name</th>
+            <th class="table-header">CU.M</th>
+            <th class="table-header">BASIC CHARGE</th>
+            <th class="table-header">SYSTEM LOSS CHARGE</th>
+            <th class="table-header">WATER MAINTENANCE FUND</th>
+            <th class="table-header">CURRENT CHARGES</th>
+            <th class="table-header">PREVIOUS UNPAID ACCOUNT</th>
+            <th class="table-header">OTHER CHARGES</th>
+            <th class="table-header">WATER</th>
+            <th class="table-header">MONTHLY ASSESSMENT FEE</th>
+            <th class="table-header">STP</th>
+            <th class="table-header">WATER</th>
+            <th class="table-header">MONTHLY ASSESSMENT FEE</th>
+            <th class="table-header">STP</th>
+            <th class="table-header">TOTAL AMOUNT DUE</th>
+            <th class="table-header">REMARKS</th>
+            <th class="table-header">Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each bills}}
+        <tr class="billing-row">
+            <td class="table-cell">{{ref_no}}</td>
+            <td class="table-cell">{{account_name}}</td>
+            <td class="table-cell">{{cu_m}}</td>
+            <td class="table-cell">{{basic_charge}}</td>
+            <td class="table-cell">{{system_loss_charge}}</td>
+            <td class="table-cell">{{water_maintenance_fund}}</td>
+            <td class="table-cell">{{current_charges}}</td>
+            <td class="table-cell">{{previous_unpaid_account}}</td>
+            <td class="table-cell">{{other_charges}}</td>
+            <td class="table-cell">{{water}}</td>
+            <td class="table-cell">{{monthly_assessment_fee}}</td>
+            <td class="table-cell">{{stp}}</td>
+            <td class="table-cell">{{total_amount_due}}</td>
+            <td class="table-cell">{{remarks}}</td>
+            <td class="table-cell"><button class="edit-btn" onclick="editBill({{id}})">Edit</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<div class="buttons">
+    <a href="#" class="action-link">Dashboard</a> |
+    <a href="#" class="action-link">Previous</a> |
+    <a href="#" class="action-link">Next</a> |
+</div>
+
+</body>
+</html>

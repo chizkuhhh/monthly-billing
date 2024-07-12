@@ -1,0 +1,128 @@
+
+.service_info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section, .meter_info {
+    margin-bottom: 20px;
+  }
+  
+  .section div, .meter_info div {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+  }
+  
+  input[type="text"], input[type="number"] {
+    width: calc(100% - 160px);
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .buttons {
+    text-align: right;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  
+  button:hover {
+    background-color: #292a2b;
+  }
+  
+  button:active {
+    background-color: #484849;
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .nav-link {
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Options styles */
+  .options {
+    margin: 20px 0;
+  }
+  
+  .options a {
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+  }
+  
+  .options a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Table styles */
+  .table-cell {
+    padding: 5px;
+  }
+  
+  .table-header {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .table-header,
+  .table-cell {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .delete-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .delete-btn:hover {
+    background-color: #e60000;
+  }
+  
+  .delete-btn:active {
+    background-color: #cc0000;
+  }
+  
+  /* Action links styles */
+  .action-link {
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+  }
+  
+  .action-link:hover {
+    text-decoration: underline;
+  }

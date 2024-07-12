@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
+    <title>Billing Information</title>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="#" class="nav-link">Home</a> |
+      <a href="#" class="nav-link">Tenant Accounts</a> |
+      <a href="#" class="nav-link">Billings</a> |
+      <a href="#" class="nav-link">Reports</a> |
+      <a href="#" class="nav-link">Profile</a> |
+      <a href="#" class="nav-link">LOGOUT</a>
+    </div>
+
+    <div class="main-content">
+      <table class="statement">
+        <thead>
+          <tr>
+            <th class="table-header">Bill no</th>
+            <th class="table-header">REF no</th>
+            <th class="table-header">Account Name</th>
+            <th class="table-header">CU.M</th>
+            <th class="table-header">BASIC CHARGE</th>
+            <th class="table-header">SYSTEM LOSS CHARGE</th>
+            <th class="table-header">WATER MAINTENANCE FUND</th>
+            <th class="table-header">CURRENT CHARGES</th>
+            <th class="table-header">PREVIOUS UNPAID ACCOUNT</th>
+            <th class="table-header">OTHER CHARGES</th>
+            <th class="table-header">TOTAL AMOUNT DUE</th>
+            <th class="table-header">REMARKS</th>
+            <th class="table-header">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="billing-row">
+            <td class="table-cell">25947-24</td>
+            <td class="table-cell">1</td>
+            <td class="table-cell">John Doe</td>
+            <td class="table-cell">159</td>
+            <td class="table-cell">4,154.00</td>
+            <td class="table-cell">0.00</td>
+            <td class="table-cell">240.00</td>
+            <td class="table-cell">4,394.00</td>
+            <td class="table-cell">3,360.00</td>
+            <td class="table-cell">0.00</td>
+            <td class="table-cell">7,754.00</td>
+            <td class="table-cell">ADD REMARKS</td>
+            <td class="table-cell">
+              <button class="delete-btn" onclick="showModal(1)">Delete</button>
+            </td>
+          </tr>
+          <!-- More rows as if ever -->
+        </tbody>
+      </table>
+
+      <div class="buttons">
+        <a href="#" class="action-link">Dashboard</a> |
+        <a href="#" class="action-link">Previous</a> |
+        <a href="#" class="action-link">Next</a> |
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="deleteModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <p>Are you sure you want to delete this bill?</p>
+        <button class="confirm-delete-btn" onclick="deleteBill()">Confirm</button>
+        <button class="cancel-delete-btn" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+
+    <script src="delete_bill.js"></script>
+  </body>
+</html>
