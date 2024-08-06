@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LRB MANGGAHAN RESIDENCES HOA, INC. - Bill</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bill.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+        * {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /*CHANGES*/
+        body{
+            max-height:100%;
+        }
+        .bill-container {
+            max-width:1000px;
+            border-radius: 10px;
+            max-height:100vh;
+            padding: 20px;
+            text-align: left; /* Center text within bill-container */
+        }
+        
+        .bill-heading {
+            margin-bottom: 20px;
+        }
+        
+        .bill-section {
+            margin-bottom: 30px;
+            text-align: left; /* Align text within bill-section */
+        }
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+        }
+
+        .indent{
+            padding-left: 30px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        td:first-child {
+            text-align: left;
+        }
+
+        th[colspan="3"] {
+            text-align: center;
+            padding-left:145px;
+            font-size:18px;
+        }
+        /*END OF CHANGES*/
+
+        button {
+            padding: 10px 20px;
+            background-color: #C4D4D2;
+            color: #292a2b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background-color: #A4B4B2;
+        }
+    </style>
+</head>
+<body>
+    <div class="bill-container">
+        <h2 class="bill-heading">LRB MANGGAHAN RESIDENCES HOA, INC. - Individual Statement of Account</h2>
+        <!-- Changed the formatting and combined them into 1 table -->
+        <table>
+            <!-- Service Information -->
+            <tr><th colspan="3">SERVICE INFORMATION</th></tr>
+            <tr><td><strong>Account Name:</strong></td><td>{{ tenant.firstname }} {{ tenant.lastname }}</td><td></td></tr>
+            <tr><td><strong>Address:</strong></td><td>Bldg {{tenant.building_num}} Unit {{tenant.unit}} Manggahan Residences, Brgy. Sta. Lucia, Pasig City</td><td></td></tr>
+            <tr><td><strong>Meter Number:</strong></td><td>{{tenant.meter_num}}</td><td></td></tr>
+            
+            <!-- Billing Summary -->
+            <tr><th colspan="3">BILLING SUMMARY</th></tr>
+            <tr><td><strong>Bill Number:</strong></td><td>{{bill.bill_no}}</td><td></td></tr>
+            <tr><td><strong>Bill Date:</strong></td><td>{{formatDate bill.billing_period_end}}</td><td></td></tr>
+            <tr><td><strong>Billing Period:</strong></td><td>{{ formatDate bill.billing_period_start }} - {{ formatDate bill.billing_period_end }}</td><td></td></tr>
+            
+            <!-- Meter Reading Information -->
+            <tr><th colspan="3">METER READING INFORMATION</th></tr>
+            <tr><td><strong>Previous Reading</strong></td><td><strong>Present Reading</strong></td><td><strong>Consumption</strong></td></tr>
+            <tr><td>{{bill.prev_reading}}</td><td>{{bill.pres_reading}}</td><td>{{bill.consumption}}</td></tr>
+            
+            <!-- Billing Details -->
+            <tr><th colspan="3">BILLING DETAILS</th></tr>
+            <tr><td><strong>CURRENT CHARGES:</strong></td><td></td><td></td></tr>
+            <tr><td><strong>WATER</strong></td><td></td><td></td></tr>
+            <tr><td class = "indent"><strong>Basic Charge:</strong></td><td>Php {{bill.water_basic_charge}}</td><td></td></tr>
+            <tr><td class = "indent"><strong>System Loss Charge:</strong></td><td>Php {{bill.water_sys_loss}}</td><td></td></tr>
+            <tr><td class = "indent"><strong>Water Maintenance Fund:</strong></td><td>Php {{bill.water_maintenance}}</td><td></td></tr>
+            <tr><td><strong>Monthly Assessment Fee:</strong></td><td>Php {{bill.monthly_fee}}</td><td></td></tr>
+            <tr><td><strong>Sewage Treatment Plan:</strong></td><td>Php {{bill.stp}}</td><td></td></tr>
+            <tr><td><strong>Other Charges:</strong></td><td>Php {{bill.other_charges}}</td><td></td></tr>
+            <tr><td><strong>PREVIOUS UNPAID ACCOUNT:</strong></td><td></td><td></td></tr>
+            <tr><td><strong>WATER:</strong></td><td>Php {{bill.prev_water}}</td><td></td></tr>
+            <tr><td><strong>MONTHLY ASSESSMENT FEE:</strong></td><td>Php {{bill.prev_monthly}}</td><td></td></tr>
+            <tr><td><strong>TOTAL AMOUNT DUE:</strong></td><td>Php {{bill.total_due}}</td><td></td></tr>
+            <tr><td><strong>DUE DATE:</strong></td><td>{{formatDate bill.due_date}}</td><td></td></tr>
+        </table>
+        <!-- Prepared By -->
+        <p><strong>Prepared By:</strong> 
+        <!-- Added a br line to copy the original table-->
+        <br>
+        {{bill.remarks}}</p>
+
+        <button class="back-button" onclick="goBack()">Back to Bills</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link rel="stylesheet" href="/css/manageUsers.css" />
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables CSS & JS-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    {{!-- DataTables Select CSS & JS--}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/2.0.3/css/select.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/select/2.0.3/js/dataTables.select.min.js"></script>
+    <!-- DataTables SearchPanes CSS & JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.3.1/css/searchPanes.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.3.1/js/dataTables.searchPanes.min.js"></script>
+
+  <body>
+    <div class="header">
+      <h2>User Management</h2>
+      <button id="addUserButton" {{#if (eq userRole 'admin')}}style="display: block;"{{else}}style="display: none;"{{/if}}>Add User</button>
+    </div>
+    <hr />
+    {{!-- change password modal for admin --}}
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Change Password</h3>
+            <h4 id="pass-user"></h4>
+            <form id="changePasswordForm">
+                <input type="hidden" id="changePasswordUserId" name="changePasswordUserId" />
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" /><br />
+                <label for="confirmNewPassword">Confirm New Password:</label>
+                <input type="password" id="confirmNewPassword" name="confirmNewPassword" /><br />
+                <button type="submit" id="changePasswordButton">Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    {{!-- success modal for all operations --}}
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSuccessModal()">&times;</span>
+            <h3 id="successMessage"></h3>
+        </div>
+    </div>
+
+    <div id="addUserModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add New User</h3>
+        <form id="addUserForm">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required /><br />
+          
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname" name="firstname" required /><br />
+          
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname" name="lastname" required /><br />
+          
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+          <i class="fas fa-eye toggle-password" id="togglePassword"></i><br />
+          
+          <label for="role">Role:</label>
+          <select id="role" name="role" required>
+            <option value="" disabled selected>Select a role</option>
+            <option value="admin">Admin</option>
+            <option value="tenant">Tenant</option>
+            <option value="floor leader">Floor Leader</option>
+            <option value="building leader">Building Leader</option>
+            <option value="finance">Finance</option>
+          </select><br />
+          
+          <label for="bldg_num">Building Number:</label>
+          <select id="bldg_num" name="bldg_num" required>
+            <option value="" disabled selected>Select a building</option>
+            <option value="1">Building 1</option>
+            <option value="2">Building 2</option>
+            <option value="3">Building 3</option>
+            <option value="4">Building 4</option>
+            <option value="5">Building 5</option>
+            <option value="6">Building 6</option>
+            <option value="7">Building 7</option>
+            <option value="8">Building 8</option>
+            <option value="10">Building 10</option>
+            <option value="12">Building 12</option>
+          </select><br />
+          
+          <label for="flr_num">Floor Number:</label>
+          <input type="number" id="flr_num" name="flr_num" required/><br />
+          
+          <label for="unit">Unit:</label>
+          <input type="number" id="unit" name="unit" required/><br />
+          
+          <label for="meter_num">Meter Number:</label>
+          <input type="text" id="meter_num" name="meter_num" required/><br />
+          
+          <button type="submit" id="submitUserButton">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Edit User</h3>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId" name="editUserId" />
+                <label for="editUsername">Username:</label>
+                <input type="text" id="editUsername" name="editUsername" /><br />
+                <label for="editFirstname">First Name:</label>
+                <input type="text" id="editFirstname" name="editFirstname" /><br />
+                <label for="editLastname">Last Name:</label>
+                <input type="text" id="editLastname" name="editLastname" /><br />
+                <label for="editRole">Role:</label>
+                <select id="editRole" name="editRole">
+                    <option value="admin">Admin</option>
+                    <option value="tenant">Tenant</option>
+                    <option value="floor leader">Floor Leader</option>
+                    <option value="building leader">Building Leader</option>
+                    <option value="finance">Finance</option>
+                </select><br />
+
+                  <label for="editBldgNum">Building Number:</label>
+                  <select id="editBldgNum" name="editBldgNum">
+                      <option value="1">Building 1</option>
+                      <option value="2">Building 2</option>
+                      <option value="3">Building 3</option>
+                      <option value="4">Building 4</option>
+                      <option value="5">Building 5</option>
+                      <option value="6">Building 6</option>
+                      <option value="7">Building 7</option>
+                      <option value="8">Building 8</option>
+                      <option value="9">Building 9</option>
+                      <option value="10">Building 10</option>
+                      <option value="11">Building 11</option>
+                      <option value="12">Building 12</option>
+                  </select><br />
+
+                  <label for="editFlrNum">Floor Number:</label>
+                  <input type="number" id="editFlrNum" name="editFlrNum"/><br>
+
+                  <label for="editUnit">Unit:</label>
+                  <input type="number" id="editUnit" name="editUnit"/><br>
+
+                  <label for="editMeterNum">Meter Number:</label>
+                  <input type="text" id="editMeterNum" name="editMeterNum"/><br>
+
+                <button type="submit" id="editUserButton">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    {{!-- generate Billing modal --}}
+    <div id="billingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBillingModal()">&times;</span>
+            <h2>Generate Billing</h2>
+            <form id="billingForm">
+                <label for="serviceInvoiceNo">Service Invoice No.:</label>
+                <input type="text" id="serviceInvoiceNo" name="serviceInvoiceNo" value="0"><br>
+
+                <label for="billingPeriodStart" class="required">Billing Period Start:</label>
+                <input type="date" id="billingPeriodStart" name="billingPeriodStart" required><br>
+
+                <label for="billingPeriodEnd" class="required">Billing Period End:</label>
+                <input type="date" id="billingPeriodEnd" name="billingPeriodEnd" required><br>
+
+                <label for="dueDate" class="required">Due Date:</label>
+                <input type="date" id="dueDate" name="dueDate" required><br>
+
+                <label for="prevReading" class="required">Previous Meter Reading:</label>
+                <input type="number" id="prevReading" name="prevReading" required><br>
+
+                <label for="presentReading" class="required">Present Meter Reading:</label>
+                <input type="number" id="presentReading" name="presentReading" required><br>
+                
+                <label for="cu-m">Consumption (CU.M):</label>
+                <input type="text" id="cu-m" name="cu-m" readonly><br>
+
+                <label for="basic-charge">Basic Charge:</label>
+                <input type="text" id="basic-charge" name="basic-charge" readonly><br>
+
+                <label for="system-loss-charge">System Loss Charge:</label>
+                <input type="text" id="system-loss-charge" name="system-loss-charge" value="0"><br>
+
+                <label for="water-maintenance-fund">Water Maintenance Fund:</label>
+                <input type="text" id="water-maintenance-fund" name="water-maintenance-fund" value="20"><br>
+                <br>
+                <h3>Current Charges</h3>
+
+                <label for="water">Water:</label>
+                <input type="text" id="water" name="monthly-dues" readonly><br>
+
+                <label for="monthly-dues">Monthly Dues:</label>
+                <input type="text" id="monthly-dues" name="monthly-dues" value="280"><br>
+
+                <label for="stp">STP:</label>
+                <input type="text" id="stp" name="stp" value="0"><br>
+
+                <label for="other-charges">Other Charges:</label>
+                <input type="text" id="other-charges" name="other-charges" value="0"><br>
+
+                <label for="remarks" class="required">Remarks:</label>
+                <textarea id="remarks" name="remarks" required></textarea><br>
+                <br>
+                <h3>Rates</h3>
+
+                <label for="first10" class="required">First 10:</label>
+                <input type="number" class="rate-input" id="first10" name="first10" value="23" required><br>
+
+                <label for="next10" class="required">Next 10:</label>
+                <input type="number" class="rate-input" id="next10" name="next10" value="28" required><br>
+
+                <label for="next20" class="required">Next 20:</label>
+                <input type="number" class="rate-input" id="next20" name="next20" value="52" required><br>
+
+                <label for="next20-2" class="required">Next 20 (2nd):</label>
+                <input type="number" class="rate-input" id="next20-2" name="next20-2" value="69" required><br>
+
+                <label for="next20-3" class="required">Next 20 (3rd):</label>
+                <input type="number" class="rate-input" id="next20-3" name="next20-3" value="80" required><br>
+
+                <input type="hidden" id="totalDue" name="totalDue" value="0">
+
+                <button type="button" onclick="calculateCharge()" id="calcChargeButton">Calculate Charge</button>
+                <button type="submit" id="addBillingButton">Confirm Billing</button><br>
+            </form>
+            <h3 id="result"></h3>
+        </div>
+    </div>
+
+    <main>
+      <table class="content" id="itemContainer">
+        <thead>
+          <tr>
+            <th>Ref No.</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Building No.</th>
+            <th>Floor No.</th>
+            <th>Unit</th>
+            <th>Role</th>
+            <th>Meter Number</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if (eq userRole 'admin')}}
+            {{#each tenants}}
+            <tr>
+              <td>{{indexPlusOne @index}}</td>
+              <td>{{this.lastname}}, {{this.firstname}}</td>
+              <td>{{this.username}}</td>
+              <td>{{this.building_num}}</td>
+              <td>{{this.floor_num}}</td>
+              <td>{{this.unit}}</td>
+              <td>{{this.role}}</td>
+              <td>{{this.meter_num}}</td>
+              <td>
+                <button class="edit-button" data-id="{{this._id}}"><i class="fa-solid fa-pencil"></i></button>
+                <button class="delete-button" data-id="{{this._id}}"><i class="fa-solid fa-trash"></i></button>
+                <button class="change-pass-button" data-id="{{this._id}}" data-name="{{this.firstname}} {{this.lastname}}"><i class="fa-solid fa-key"></i></i></button>
+                <button class="billing-button" data-id="{{this._id}}">Generate Billing</button>
+              </td>
+            </tr>
+            {{/each}}
+          {{else}}
+            {{#each tenants}}
+            <tr>
+              <td>{{indexPlusOne @index}}</td>
+              <td>{{this.lastname}}, {{this.firstname}}</td>
+              <td>{{this.username}}</td>
+              <td>{{this.building_num}}</td>
+              <td>{{this.floor_num}}</td>
+              <td>{{this.unit}}</td>
+              <td>{{this.role}}</td>
+              <td>{{this.meter_num}}</td>
+              <td>
+                <button class="edit-button" data-id="{{this._id}}" style="display: none;"><i class="fa-solid fa-pencil"></i></button>
+                <button class="delete-button" data-id="{{this._id}}" style="display: none;"><i class="fa-solid fa-trash"></i></button>
+                <button class="change-pass-button" data-id="{{this._id}}" style="display: none;"><i class="fa-solid fa-key"></i></i></button>
+                <button class="billing-button" data-id="{{this._id}}">Generate Billing</button>
+              </td>
+            </tr>
+            {{/each}}
+          {{/if}}
+        </tbody>
+      </table>
+
+      <hr />
+    </main>
+    <script>
+        window.userRole = "{{userRole}}";
+        window.userId = "{{userId}}";
+        window.buildingNum = "{{buildingNum}}";
+        window.floorNum = "{{floorNum}}";
+    </script>
+    <script src="/script/manageUsers.js"></script>
+    <script src="/script/add_bill.js"></script>
+  </body>
+</html>

@@ -1,0 +1,224 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+    <script src="https://kit.fontawesome.com/f6e41f73e1.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Change Password - APO-AMF Monthly Billing System</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+        * {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #F4F4F4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .login-box {
+            background-color: #C4D4D2;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-box h3 {
+            color: #292a2b;
+            margin-bottom: 20px;
+        }
+
+        .login-box p.feedback-text {
+            color: red;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .login-box form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .login-box label {
+            color: #292a2b;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #292a2b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .login-box button:hover {
+            background-color: #1f1f1f;
+        }
+
+        .back-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #292a2b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #1f1f1f;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            position: center;
+            margin: 5%;
+            margin-left: 10%;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    {{!-- success modal for all operations --}}
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSuccessModal()">&times;</span>
+            <h3 id="successMessage"></h3>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h3>Change Password</h3>
+            <p class="feedback-text"></p>
+            <form id="changePasswordForm">
+                <label for="oldPassword">Old Password:</label>
+                <input type="password" id="oldPassword" name="oldPW" required><br><br>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPW" required><br><br>
+                <button type="submit">Change Password</button>
+            </form>
+            <a href="javascript:history.back()" class="back-button">Back</a>
+        </div>
+    </div>
+
+    <script>
+        window.userRole = "{{userRole}}";
+        window.userId = "{{userId}}";
+        window.buildingNum = "{{buildingNum}}";
+        window.floorNum = "{{floorNum}}";
+        // success modal/pop-up
+        function showSuccessModal(message) {
+            document.getElementById('successMessage').innerText = message;
+            document.getElementById('successModal').style.display = 'block';
+            document.querySelector(".feedback-text").innerText = ""; // Clear feedback message
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            location.reload();
+        }
+
+        document.getElementById("changePasswordForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const oldPW = document.getElementById("oldPassword").value;
+            const newPW = document.getElementById("newPassword").value;
+
+            const requestData = { id: window.userId, oldPW, newPW };
+
+            try {
+                const response = await fetch(`/api/tenants/change-password/for-user/${window.userId}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestData),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to update password');
+                }
+
+                const updatedPass = await response.json();
+                showSuccessModal(`Successfully changed password for user.`);
+                console.log(updatedPass.message);
+            } catch (error) {
+                console.error("Error updating user:", error.message);
+                document.querySelector(".feedback-text").innerText = error.message;
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APOAMF Billing System</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <style>
+        /* 2024-07-25 Changes 
+            the only problem with this is that the "APO-AMF Monthly Billing System" 
+            on the login panel disappeared.
+        */
+
+        @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+
+        .kumbh-sans-bold {
+            font-family: "Kumbh Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: normal;
+            font-variation-settings: "YOPQ" 300;
+        }
+
+        .kumbh-sans-light {
+            font-family: "Kumbh Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 300;
+            font-style: normal;
+            font-variation-settings: "YOPQ" 300;
+        }
+
+        header {
+            background-color: inherit;
+            box-shadow: none;
+        }
+
+        .headerlogo {
+            width: 10%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #grp_title h1 {
+            font-size: 36px;
+        }
+
+        #grp_title h1:first-child {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .flex_col_center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flex_row_center {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .eee {
+            height: 20%;
+            width: 90%;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+
+            font-size: 20px;
+            color: #292a2b;
+
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-bottom: 5%;
+        }
+
+        .eee_groups {
+            background-color: #c4d4d2;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .eee_groups h2,
+        p {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .intro p {
+            max-width: 45%;
+        }
+
+        footer {
+            background-color: inherit;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="flex_row_center">
+            <img src="/images/logo_trans.png" alt="apoamf_logo" class="headerlogo">
+            <div id="grp_title" class="flex_row_center">
+                <h1 class="kumbh-sans-bold">APOAMF Online</h1>
+                <h1 class="kumbh-sans-light">Billing Portal</h1>
+            </div>
+        </div>
+    </header>
+
+    <main style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <!-- Do not remove styling -->
+
+        <section class="eee flex_row_center">
+            <div class="eee_groups">
+                <h2>Efficient.</h2>
+                <p>Save time and resources.</p>
+            </div>
+            <div class="eee_groups">
+                <h2>Easy.</h2>
+                <p>Simple to use and navigate.</p>
+            </div>
+            <div class="eee_groups">
+                <h2>Environmental.</h2>
+                <p>Go completely paperless.</p>
+            </div>
+        </section>
+        
+        <section class="intro flex_col_center">
+            <h1>About Us</h1>
+            <p class="kumbh-sans-light">Developed by De La Salle University students in 2024, this website is an initiative aimed at storing and
+                processing monthly bills for The Alliance of People's Organizations along the Manggahan Floodway
+                (APOAMF). APOAMF is a community-driven initiative empowering residents through active participation in
+                sustainable housing solutions. It involves community visioning, land research, housing design, and
+                decision-making via assemblies. Key initiatives include clean-ups, urban gardening, waste management,
+                HOA management, community events, conflict resolution, and livelihood recovery.</p>
+        </section>
+    </main>
+
+    <footer class="kumbh-sans-bold flex_col_center">
+        <p class="kumbh-sans-light">&copy; 2024 APOAMF Billing System</p>
+        <div class="footer-links">
+            <a href="mailto:jenydavid.13178@gmail.com" class="contact-us"><i class="fas fa-envelope"></i> Contact Us</a>
+            <a href="https://github.com/clavzno/APOAMF_MonthlyBilling_Portal" class="github"><i class="fab fa-github"></i> Github</a>
+            <!--<a href="https://docs.google.com/document/d/1nGugzqA92ifBRyEZViexR6xqcKnsKmexWxNmCZ0rNq8" class="google-doc"><i class="fab fa-google"></i> Google Document</a>-->
+            <a href="https://www.facebook.com/groups/1673708719576826/?ref=share"><i class="fas fa-envelope"></i> Facebook</a>
+        </div>
+    </footer>
+
+    <script src="/script/script.js"></script>
+</body>
+
+</html>

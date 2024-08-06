@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Reports</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+        * {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background-color: #C4D4D2;
+            color: #292a2b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background-color: #A4B4B2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        table.active {
+            display: table;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #C4D4D2;
+            color: #292a2b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #A4B4B2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reports</h1>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('open-reports')">Open Reports</button>
+        <button class="tab" onclick="showTab('reports-history')">Reports History</button>
+    </div>
+
+    <table id="open-reports" class="active display">
+        <thead>
+            <tr>
+                <th>Report Number</th>
+                <th>Subject</th>
+                <th>Details</th>
+                <th>Reported By</th>
+                <th>Date Reported</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="open-reports-table-body">
+            {{#each reports}}
+            {{#if (eq this.status "Open")}}
+            <tr>
+                <td>{{this.report_num}}</td>
+                <td>{{this.details}}</td>
+                <td>{{this.comments}}</td>
+                <td>{{this.firstname}} {{this.lastname}}</td>
+                <td>{{formatDate this.createdAt}}</td>
+                <td>
+                    <button onclick="resolveReport('{{this._id}}')">Issue Resolved</button>
+                </td>
+            </tr>
+            {{/if}}
+            {{/each}}
+        </tbody>
+    </table>
+
+    <table id="reports-history" class="display">
+        <thead>
+            <tr>
+                <th>Report Number</th>
+                <th>Subject</th>
+                <th>Details</th>
+                <th>Reported By</th>
+                <th>Date Reported</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="reports-history-table-body">
+            {{#each reports}}
+            {{#if (eq this.status "Resolved")}}
+            <tr>
+                <td>{{this.report_num}}</td>
+                <td>{{this.details}}</td>
+                <td>{{this.comments}}</td>
+                <td>{{this.firstname}} {{this.lastname}}</td>
+                <td>{{formatDate this.createdAt}}</td>
+                <td>
+                    <button onclick="deleteReport('{{this._id}}')">Delete</button>
+                </td>
+            </tr>
+            {{/if}}
+            {{/each}}
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        let openReportsTable, reportsHistoryTable;
+
+        $(document).ready(function() {
+            openReportsTable = $('#open-reports').DataTable();
+
+            $('#open-reports').addClass('active');
+            $('#reports-history').removeClass('active');
+
+            $('.tab').on('click', function() {
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+
+                $('table').removeClass('active');
+                const targetTable = $(this).attr('onclick').split("'")[1];
+                
+                if (targetTable === 'open-reports') {
+                    if ($.fn.DataTable.isDataTable('#reports-history')) {
+                        reportsHistoryTable.destroy();
+                    }
+                    $('#reports-history').removeClass('active');
+                    $('#open-reports').addClass('active');
+                    openReportsTable = $('#open-reports').DataTable();
+                } else if (targetTable === 'reports-history') {
+                    if ($.fn.DataTable.isDataTable('#open-reports')) {
+                        openReportsTable.destroy();
+                    }
+                    $('#open-reports').removeClass('active');
+                    $('#reports-history').addClass('active');
+                    reportsHistoryTable = $('#reports-history').DataTable();
+                }
+            });
+        });
+
+        function resolveReport(reportId) {
+            if (confirm("Are you sure you want to mark this issue as resolved? This action cannot be undone.")) {
+                fetch(`/api/reports/admin/${reportId}`, {
+                    method: 'PUT'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to resolve report');
+                    }
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to resolve report. Please try again later.');
+                });
+            }
+        }
+
+        function deleteReport(reportId) {
+            if (confirm("Are you sure you want to delete this report? This action cannot be undone.")) {
+                fetch(`/api/reports/admin/${reportId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete report');
+                    }
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete report. Please try again later.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

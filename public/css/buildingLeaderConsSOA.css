@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+* {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#content {
+  max-width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+table {
+  max-width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #c4d4d2;
+  color: #292a2b;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+button:hover {
+  background-color: #a4b4b2;
+}
+
+.edit-button,
+.delete-button {
+  padding: 10px !important;
+  margin: 0 5px !important;
+}
+
+.action-buttons {
+  display: flex;
+}
+
+.tabs button {
+  background-color: #e1e0e1;
+}
+
+.tabs button.active {
+  background-color: #c4d4d2;
+}
+
+/* override datatables css */
+.dtsp-searchPane .dt-container .dt-scroll-body,
+.dtsp-searchPane .dt-container .dataTables_scrollBody,
+.dtsp-searchPane .dataTables_wrapper .dt-scroll-body,
+.dtsp-searchPane .dataTables_wrapper .dataTables_scrollBody {
+  height: fit-content !important;
+}
+
+.dtsp-panesContainer button.dtsp-clearAll,
+div.dtsp-panesContainer button.dtsp-collapseAll,
+.dtsp-panesContainer button.dtsp-showAll {
+  margin: 0 5px !important;
+}
+
+.dtsp-searchPane .dtsp-topRow.dtsp-bordered {
+  border: 1px solid #292a2b !important;
+  border-radius: 3px;
+}
+
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody {
+  overflow-x: scroll !important;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 2% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fill-cell {
+  background-color: #292a2b;
+}
+
+.left-align {
+  text-align: left;
+}

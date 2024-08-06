@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Table</title>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables CSS & JS-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <!-- DataTables Buttons CSS & JS-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
+    <!-- Buttons for Excel & PDF -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
+
+    {{!-- DataTables Select CSS & JS--}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/2.0.3/css/select.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/select/2.0.3/js/dataTables.select.min.js"></script>
+    <!-- DataTables SearchPanes CSS & JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.3.1/css/searchPanes.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.3.1/js/dataTables.searchPanes.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+        * {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto; /* Enable horizontal scrolling */
+        }
+
+        th, td {
+            border: 1px solid #292a2b;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.7rem;
+        }
+
+        .fill-cell {
+            background-color: #292a2b;
+        }
+
+        /* override datatables css */
+        .dtsp-searchPane .dt-container .dt-scroll-body, 
+        .dtsp-searchPane .dt-container .dataTables_scrollBody, 
+        .dtsp-searchPane .dataTables_wrapper .dt-scroll-body, 
+        .dtsp-searchPane .dataTables_wrapper .dataTables_scrollBody {
+            height: fit-content !important;
+        }
+
+        .dtsp-panesContainer button.dtsp-clearAll, div.dtsp-panesContainer button.dtsp-collapseAll, 
+        .dtsp-panesContainer button.dtsp-showAll {
+            margin: 0 5px !important;
+        }
+
+        .dtsp-searchPane .dtsp-topRow.dtsp-bordered {
+            border: 1px solid #292a2b !important;
+            border-radius: 3px;
+        }
+
+        #extra-info {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #extra-info .row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        #extra-info label {
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        #extra-info .row-left, #extra-info .row-right {
+            width: 50%;
+        }
+
+        #extra-info input {
+            padding: 5px;
+            font-size: 0.8rem;
+            border: 1px solid #292a2b;
+            border-radius: 3px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="left">
+            <h1>LRB MANGGAHAN RESIDENCES HOMEOWNERS' ASSOCIATION, INC.</h1>
+            <h2>Territorial Account - Building {{buildingNum}}, Floor {{floorNum}}</h2>
+        </div>
+    </div>
+
+    <table id="billing-table">
+        <thead>
+            <tr>
+                <th>Ref. No.</th>
+                <th>Bill Number</th>
+                <th>Billing Period</th>
+                <th>Unit</th>
+                <th>Account Name</th>
+                <th>Meter No.</th>
+                <th>Present Meter Reading</th>
+                <th>Previous Meter Reading</th>
+                <th>Consumption</th>
+                <th>Basic Charge</th>
+                <th>System Loss Charge</th>
+                <th>Water Maintenance Fund</th>
+                <th>Water</th>
+                <th>Monthly Dues</th>
+                <th>STP</th>
+                <th>Other Charges</th>
+                <th>Total Amount Due</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each billings}}
+            <tr>
+                <td>{{indexPlusOne @index}}</td>
+                <td>{{this.bill_no}}</td>
+                <td>{{formatDate this.billing_period_start}} - {{formatDate this.billing_period_end}}</td>
+                <td>{{this.tenant_id.unit}}</td>
+                <td>{{this.tenant_id.firstname}} {{this.tenant_id.lastname}}</td>
+                <td>{{this.meter_num}}</td>
+                <td>{{this.pres_reading}}</td>
+                <td>{{this.prev_reading}}</td>
+                <td>{{this.consumption}}</td>
+                <td>{{this.water_basic_charge}}</td>
+                <td>{{this.water_sys_loss}}</td>
+                <td>{{this.water_maintenance}}</td>
+                <td>{{this.water_total}}</td>
+                <td>{{this.monthly_fee}}</td>
+                <td>{{this.stp}}</td>
+                <td>{{this.other_charges}}</td>
+                <td>{{this.total_due}}</td>
+                <td>{{this.remarks}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">Totals</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="fill-cell"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div id="extra-info">
+        <h3>Please fill out the following fields before exporting:</h3>
+        <div class="row">
+            <div class="row-left">
+                <label for="cash-amount-remitted">CASH AMOUNT REMITTED:</label>
+                <input type="number" id="cash-amount-remitted"><br>
+            </div>
+            
+            <div class="row-right">
+                <label for="remarks">REMARKS:</label>
+                <input type="text" id="remarks"><br>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="row-left">
+                <label for="date-received">DATE RECEIVED:</label>
+                <input type="text" id="date-received"><br>
+            </div>
+            
+            <div class="row-right">
+                <label for="received-by">RECEIVED / ATTESTED BY:</label>
+                <input type="text" id="received-by"><br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row-left">
+                <label for="prepared-by">Prepared By:</label>
+                <input type="text" id="prepared-by"><br>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.userRole = "{{userRole}}";
+        window.userId = "{{userId}}";
+        window.buildingNum = "{{buildingNum}}";
+        window.floorNum = "{{floorNum}}";
+    </script>
+
+    <script>
+        var table = $('#billing-table').DataTable({
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                { 
+                                    extend: 'excel', 
+                                    text: 'Export to Excel', 
+                                    title: 'TA-Bldg{{buildingNum}}-Floor{{floorNum}}',
+                                    customize: function(xlsx) {
+                                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                        var cashAmountRemitted = $('#cash-amount-remitted').val();
+                                        var remarks = $('#remarks').val();
+                                        var dateReceived = $('#date-received').val();
+                                        var receivedBy = $('#received-by').val();
+                                        var preparedBy = $('#prepared-by').val();
+
+                                        var row = `
+                                            <row>
+                                                <c t="inlineStr"><is><t>CASH AMOUNT REMITTED:</t></is></c>
+                                                <c t="inlineStr"><is><t>${cashAmountRemitted}</t></is></c>
+                                            </row>
+                                            <row>
+                                                <c t="inlineStr"><is><t>REMARKS:</t></is></c>
+                                                <c t="inlineStr"><is><t>${remarks}</t></is></c>
+                                            </row>
+                                            <row>
+                                                <c t="inlineStr"><is><t>DATE RECEIVED:</t></is></c>
+                                                <c t="inlineStr"><is><t>${dateReceived}</t></is></c>
+                                            </row>
+                                            <row>
+                                                <c t="inlineStr"><is><t>RECEIVED / ATTESTED BY:</t></is></c>
+                                                <c t="inlineStr"><is><t>${receivedBy}</t></is></c>
+                                            </row>
+                                            <row>
+                                                <c t="inlineStr"><is><t>Prepared By:</t></is></c>
+                                                <c t="inlineStr"><is><t>${preparedBy}</t></is></c>
+                                            </row>
+                                        `;
+
+                                        var lastRow = $('row:last', sheet);
+                                        lastRow.after(row);
+
+                                        // Add styles for the new cells
+                                        var stylesheet = `
+                                            <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+                                                <cellXfs count="3">
+                                                    <xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
+                                                    <xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>
+                                                    <xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1">
+                                                        <alignment wrapText="1"/>
+                                                    </xf>
+                                                </cellXfs>
+                                            </styleSheet>
+                                        `;
+
+                                        var newStyleSheet = $(stylesheet);
+                                        $('styleSheet', sheet).replaceWith(newStyleSheet);
+                                    } 
+                                }
+                            ]
+                        }
+                    },
+                    
+                    lengthMenu: [10, 25, 50],
+                    pageLength: 10,
+                    ordering: false,
+                    autoWidth: false,
+                    scrollX: true,
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        // Helper function to calculate column sum
+                        var intVal = function(i) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\₱,]/g, '') * 1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        // Calculate total for each column
+                        var columns = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+                        columns.forEach(function(column) {
+                            var total = api
+                                .column(column, {page: 'current'})
+                                .data()
+                                .reduce(function(a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+
+                            $(api.column(column).footer()).html(total);
+                        });
+                    },
+                    initComplete: function () {
+                        var column = this.api().column(2); // Change to the correct column index
+                        var select = $('<select><option value=""></option></select>')
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+
+                        // Preselect the first option
+                        select.find('option:eq(1)').prop('selected', true).trigger('change');
+
+                        // Append the dropdown to the left class div
+                        $('.header .left').append(select);
+                    }
+                });
+    </script>
+
+</body>
+</html>

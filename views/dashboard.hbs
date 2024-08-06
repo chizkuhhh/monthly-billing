@@ -1,0 +1,154 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="https://kit.fontawesome.com/f6e41f73e1.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>Welcome</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
+    ></script>
+  </head>
+  <body>
+    <main>
+      <div class="top">
+        <div class="user-card">
+          <div class="left">
+            <h1>Hello, {{user.firstname}} {{user.lastname}}!</h1>
+            <h3>You're logged in as: <span style="text-transform: capitalize;">{{user.role}}</span></h3><br>
+            <p>Address: Bldg {{user.building_num}} Unit {{user.unit}} Manggahan Residences, Brgy. Sta. Lucia, Pasig City</p>
+            <p>Meter Number: {{user.meter_num}}</p>
+          </div>
+          
+          <div class="right">
+            <img src="images/water_ball.gif" alt="">
+          </div>
+        </div>
+
+        <div class="recent-announcements">
+          <div class="header">
+            <i class='bx bxs-megaphone' ></i>
+            <h2>Recent Announcements</h2>
+          </div>
+          
+          <div class="content">
+            <h3>{{#if announcement}}{{announcement.title}}{{else}}No Announcements Yet{{/if}}</h3>
+            <p>{{#if announcement}}{{truncate announcement.message 110}}{{/if}}</p>
+          </div>
+
+          <a href="/api/announcements/all/{{userId}}">
+            <div class="go-to">
+                <i class='bx bx-chevron-right' ></i>
+                <p>Go to Announcements</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <h2 class="user-funcs-label">User Functions</h2>
+      <div class="user-funcs">
+        {{#if (eq userRole 'floor leader')}}
+          <a href="/api/announcements/all/{{userId}}">
+            <button><i class='bx bxs-megaphone' ></i><p>Announcements</p></button>
+          </a>
+          <a href="/api/floor-leader/assigned-tenants/{{buildingNum}}/{{floorNum}}">
+            <button><i class='bx bxs-book-content' ></i><p>Tenant Accounts</p></button>
+          </a>
+          <a href="/api/billings/{{userId}}">
+            <button><i class='bx bxs-user-detail'></i><p>Personal Bills</p></button>
+          </a>
+          <a href="/api/floor-leader/billings-ta/{{buildingNum}}/{{floorNum}}">
+            <button><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></button>
+          </a>
+          <a href="/api/tenants/change-password/form">
+            <button><i class='bx bx-lock'></i></i><p>Change Password</p></button>
+          </a>
+
+        {{else if (eq userRole 'building leader')}}
+          <a href="/api/announcements/all/{{userId}}">
+            <button><i class='bx bxs-megaphone' ></i><p>Announcements</p></button>
+          </a>
+          <a href="/api/building-leader/assigned-tenants/{{buildingNum}}">
+            <button><i class='bx bxs-book-content' ></i><p>Tenant Accounts</p></button>
+          </a>
+          <a href="/api/billings/{{userId}}">
+            <button><i class='bx bxs-user-detail'></i><p>Personal Bills</p></button>
+          </a>
+          <a href="/api/building-leader/billings-cons/{{buildingNum}}">
+            <button><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></button>
+          </a>
+          <a href="/api/tenants/change-password/form">
+            <button><i class='bx bx-lock'></i></i><p>Change Password</p></button>
+          </a>
+
+        {{else if (eq userRole 'finance')}}
+          <a href="/api/announcements/all/{{userId}}">
+            <button><i class='bx bxs-megaphone' ></i><p>Announcements</p></button>
+          </a>
+          <a href="/api/tenants/all/{{userId}}">
+            <button><i class='bx bxs-book-content' ></i><p>Tenant Accounts</p></button>
+          </a>
+          <a href="/api/reports/admin">
+            <button><i class='bx bxs-inbox'></i><p>Inbox</p></button>
+          </a>
+          <a href="/api/billings/{{userId}}">
+            <button><i class='bx bxs-user-detail'></i><p>Personal Bills</p></button>
+          </a>
+          <a href="/api/billings/admin/view-billings">
+            <button><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></button>
+          </a>
+          <a href="/api/tenants/change-password/form">
+            <button><i class='bx bx-lock'></i></i><p>Change Password</p></button>
+          </a>
+
+        {{else if (eq userRole 'admin')}}
+          <a href="/api/announcements/all/{{userId}}">
+            <button><i class='bx bxs-megaphone' ></i><p>Announcements</p></button>
+          </a>
+          <a href="/api/reports/admin">
+            <button><i class='bx bxs-inbox'></i><p>Inbox</p></button>
+          </a>
+          <a href="/api/tenants/all/{{userId}}">
+            <button><i class='bx bxs-book-content'></i><p>Manage Users</p></button>
+          </a>
+          <a href="/api/billings/{{userId}}">
+            <button><i class='bx bxs-user-detail'></i><p>Personal Bills</p></button>
+          </a>
+          <a href="/api/billings/admin/view-billings">
+            <button><i class='bx bxs-wallet-alt'></i><p>Billing Management</p></button>
+          </a>
+          <a href="/api/tenants/change-password/form">
+            <button><i class='bx bx-lock'></i></i><p>Change Password</p></button>
+          </a>
+
+        {{else if (eq userRole 'tenant')}}
+          <a href="/api/announcements/all/{{userId}}">
+            <button><i class='bx bxs-megaphone' ></i><p>Announcements</p></button>
+          </a>
+          <a href="/api/billings/{{userId}}">
+            <button><i class='bx bxs-user-detail'></i><p>Personal Bills</p></button>
+          </a>
+          <a href="/api/tenants/change-password/form">
+            <button><i class='bx bx-lock'></i></i><p>Change Password</p></button>
+          </a>
+        {{/if}}
+      </div>
+    </main>
+    {{! <footer>
+        <p>&copy; APOAMF Billing System</p>
+        <div class="footer-links">
+            <a href="#" class="github">Github</a>
+            <a href="#" class="google-doc">Google Document</a>
+        </div>
+    </footer>
+    }}
+    <script>
+      window.userRole = "{{userRole}}"; 
+      window.userId = "{{userId}}";
+      window.buildingNum = "{{buildingNum}}";
+      window.floorNum = "{{floorNum}}";
+      window.activePage = "{{activePage}}";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+* {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+h2 {
+  color: #292a2b;
+}
+
+hr {
+  margin: 20px 0;
+  border: none;
+  height: 1px;
+  background-color: #292a2b;
+}
+
+button {
+  background-color: #c4d4d2;
+  color: #292a2b;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #a4b4b2;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  position: center;
+  margin: 5%;
+  margin-left: 10%;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #292a2b;
+}
+
+#addUserButton,
+#submitUserButton,
+#editUserButton,
+#addBillingButton,
+#calcChargeButton,
+#changePasswordButton {
+  padding: 10px 20px;
+}
+
+.edit-button,
+.delete-button,
+.billing-button,
+.change-pass-button {
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #c4d4d2;
+  color: #292a2b;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button:hover,
+.delete-button:hover,
+.billing-button:hover {
+  background-color: #a4b4b2;
+}
+
+form label {
+  display: block;
+  margin-top: 10px;
+  color: #292a2b;
+}
+
+form label.required::after {
+  content: "*";
+  color: red;
+  margin-left: 5px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="number"],
+form input[type="date"],
+form select,
+form textarea {
+  width: calc(100% - 20px);
+  padding: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  margin-top: 20px;
+  background-color: #c4d4d2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #a4b4b2;
+}
+
+form input[readonly] {
+  background-color: #e9ecef; /* Light gray background */
+  color: #495057; /* Darker text color */
+  border-color: #ced4da; /* Lighter border color */
+  cursor: not-allowed; /* Not-allowed cursor */
+}
+
+.toggle-password {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+/* override datatables css */
+.dtsp-searchPane .dt-container .dt-scroll-body,
+.dtsp-searchPane .dt-container .dataTables_scrollBody,
+.dtsp-searchPane .dataTables_wrapper .dt-scroll-body,
+.dtsp-searchPane .dataTables_wrapper .dataTables_scrollBody {
+  height: fit-content !important;
+}
+
+.dtsp-panesContainer button.dtsp-clearAll,
+div.dtsp-panesContainer button.dtsp-collapseAll,
+.dtsp-panesContainer button.dtsp-showAll {
+  margin: 0 5px !important;
+}
+
+
+/* Maintains dropdown border color when clicked*/
+div.dtsp-searchPane div.dtsp-topRow {
+  border: 1px solid black !important;
+}
+/*Hover effect*/
+table.dataTable tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+table.dataTable > thead > tr > th,
+table.dataTable > thead > tr > td,
+div.dt-container.dt-empty-footer tbody > tr:last-child > * {
+  border: 1px solid black !important;
+}
+
+/*Lighter Paging buttons*/
+div.dt-container .dt-paging .dt-paging-button:hover {
+  background-color: #b19a9a !important;
+  color: 000 !important;
+  background: #6e6e6e !important;
+  background: linear-gradient(to bottom, #6e6e6e, #6e6e6e) !important;
+  background: -webkit-linear-gradient(top, #6e6e6e, #6e6e6e) !important;
+  background: -moz-linear-gradient(top, #6e6e6e, #6e6e6e) !important;
+  background: -ms-linear-gradient(top, #6e6e6e, #6e6e6e) !important;
+  background: -o-linear-gradient(top, #6e6e6e, #6e6e6e) !important;
+}

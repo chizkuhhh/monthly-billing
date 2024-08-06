@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/announcements.css">
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables CSS & JS-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <title>Announcements</title>
+  </head>
+  <body>
+    <h2>Announcements</h2>
+    <hr />
+      <button id="createAnnouncementButton" {{#if (eq userRole 'tenant')}}style="display: none;"{{/if}}>Create Announcement</button>
+
+    <div id="announcementModal" class="modal">
+        <div class="modal-content">
+            <span class="close close-create">&times;</span>
+            <h3>Create Announcement</h3>
+            <p id="feedbackText" class="feedback-text"></p> <!-- Feedback message here -->
+            <form id="announcementForm">
+                <label for="announcementTitle">Title:</label>
+                <input type="text" id="announcementTitle" name="title" required/><br>
+                <label for="announcementMessage">Message:</label>
+                <textarea id="announcementMessage" name="message" required></textarea><br /><br />
+                <button type="submit" id="broadcastButton">Broadcast</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="editAnnouncement" class="modal">
+      <div class="modal-content">
+        <span class="close close-edit">&times;</span>
+        <h3>Edit Announcement</h3>
+        <form id="editAnnForm">
+          <label for="editAnnTitle">Title:</label>
+          <input type="text" id="editAnnTitle" name="title" /><br>
+          <label for="editAnnMessage">Message:</label>
+          <textarea id="editAnnMessage" name="message"></textarea><br /><br
+          />
+
+          {{!-- hidden inputs for ids --}}
+          <input type="hidden" id="user_id" name="user_id"/>
+        <input type="hidden" id="announcement_id" name="announcement_id"/>
+          
+          <button type="submit" id="confirmEditButton">Confirm</button>
+        </form>
+      </div>
+    </div>
+
+    <main>
+      <div id="announcements-list">
+
+        <p>Announcements will be stored in this list and will show up on the
+          landing page of the site. This is just to show non-tenants all the
+          announcements.They can also delete the announcement.
+        </p>
+        <table id="announcement-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Message</th>
+              {{#unless (eq userRole 'tenant')}}
+                <th>Action</th>
+              {{/unless}}
+            </tr>
+          </thead>
+          <tbody>
+            {{#unless (eq userRole 'tenant')}}
+              {{#each announcements}}
+              <tr>
+                <td>{{this.title}}</td>
+                <td>
+                  <span class="announcement-short">{{truncate this.message 90}}</span>
+                  {{!-- added helper, but need FEDs to handle responsiveness --}}
+
+                  <a href="#" class="read-more" data-id="{{this._id}}" data-title="{{this.title}}" 
+                  data-message="{{this.message}}" data-user="{{this.user_id}}">Read more</a>
+
+                  <td>
+                    <button class="edit-button" data-id="{{this._id}}">Edit</button>
+                    <button class="delete-button" data-id="{{this._id}}">Delete</button>
+                  </td>
+              </tr>
+              {{/each}}
+            {{else}}
+              {{#each announcements}}
+              <tr>
+                <td>{{this.title}}</td>
+                <td>
+                  <span class="announcement-short">{{truncate this.message 90}}</span>
+                  {{!-- added helper, but need FEDs to handle responsiveness --}}
+
+                  <a href="#" class="read-more" data-id="{{this._id}}" data-title="{{this.title}}" 
+                  data-message="{{this.message}}" data-user="{{this.user_id}}">Read more</a>
+              </tr>
+              {{/each}}
+            {{/unless}}
+          </tbody>
+        </table>
+        <!-- List of announcements will be dynamically loaded here -->
+        <!-- Needs backend dev work -->
+        <!-- or just msg me when theres a way to fetch the announcements and I can do it-->
+      </div>
+
+      <div id="fullAnnouncement" class="announcement-full">
+        <div class="modal-content">
+            <span class="close close-full">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+        </div>
+      </div>
+    </main>
+    <hr />
+    <script>
+        window.userRole = "{{userRole}}";
+        window.userId = "{{userId}}";
+    </script>
+    <script src="/script/announcements.js"></script>
+
+  </body>
+</html>

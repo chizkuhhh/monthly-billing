@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Reports</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+        * {
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background-color: #C4D4D2;
+            color: #292a2b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background-color: #A4B4B2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        table.active {
+            display: table;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #C4D4D2;
+            color: #292a2b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #A4B4B2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Reports</h1>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('open-reports')">Your Open Reports</button>
+        <button class="tab" onclick="showTab('reports-history')">Your Resolved Reports</button>
+    </div>
+
+    <table id="open-reports" class="active display">
+        <thead>
+            <tr>
+                <th>Report Number</th>
+                <th>Subject</th>
+                <th>Details</th>
+                <th>Date Reported</th>
+            </tr>
+        </thead>
+        <tbody id="open-reports-table-body">
+            {{#each reports}}
+            {{#if (eq this.status "Open")}}
+            <tr>
+                <td>{{this.report_num}}</td>
+                <td>{{this.details}}</td>
+                <td>{{this.comments}}</td>
+                <td>{{formatDate this.createdAt}}</td>
+            </tr>
+            {{/if}}
+            {{/each}}
+        </tbody>
+    </table>
+
+    <table id="reports-history" class="display">
+        <thead>
+            <tr>
+                <th>Report Number</th>
+                <th>Subject</th>
+                <th>Details</th>
+                <th>Date Reported</th>
+            </tr>
+        </thead>
+        <tbody id="reports-history-table-body">
+            {{#each reports}}
+            {{#if (eq this.status "Resolved")}}
+            <tr>
+                <td>{{this.report_num}}</td>
+                <td>{{this.details}}</td>
+                <td>{{this.comments}}</td>
+                <td>{{formatDate this.createdAt}}</td>
+            </tr>
+            {{/if}}
+            {{/each}}
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        let openReportsTable, reportsHistoryTable;
+
+        $(document).ready(function() {
+            // Initialize DataTables for the initially visible table
+            openReportsTable = $('#open-reports').DataTable();
+
+            // Show only the active table
+            $('#open-reports').addClass('active');
+            $('#reports-history').removeClass('active');
+
+            $('.tab').on('click', function() {
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+
+                $('table').removeClass('active');
+                const targetTable = $(this).attr('onclick').split("'")[1];
+                
+                if (targetTable === 'open-reports') {
+                    if ($.fn.DataTable.isDataTable('#reports-history')) {
+                        reportsHistoryTable.destroy();
+                    }
+                    $('#reports-history').removeClass('active');
+                    $('#open-reports').addClass('active');
+                    openReportsTable = $('#open-reports').DataTable();
+                } else if (targetTable === 'reports-history') {
+                    if ($.fn.DataTable.isDataTable('#open-reports')) {
+                        openReportsTable.destroy();
+                    }
+                    $('#open-reports').removeClass('active');
+                    $('#reports-history').addClass('active');
+                    reportsHistoryTable = $('#reports-history').DataTable();
+                }
+            });
+        });
+
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            const tables = document.querySelectorAll('table');
+
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            tables.forEach(table => {
+                table.classList.remove('active');
+            });
+
+            document.querySelector(`#${tabId}`).classList.add('active');
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

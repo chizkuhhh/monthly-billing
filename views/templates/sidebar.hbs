@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APO-AMF Monthly Billing System</title>
+
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+    <script src="https://kit.fontawesome.com/f6e41f73e1.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-hands-holding-circle"></i>
+            <h1><span>APO-AMF</span><br>Monthly Billing System</h1>
+        </div>
+
+        {{#if (eq userRole 'floor leader')}}
+        <ul>
+            <a href="/dashboard" class="{{#if (eq activePage 'dashboard')}}active{{/if}}">
+                <li><i class='bx bxs-user-rectangle' ></i></i></i><p>Dashboard</p></li>
+            </a>
+
+            <a href="/api/announcements/all/{{userId}}" class="{{#if (eq activePage 'announcements')}}active{{/if}}">
+                <li><i class='bx bxs-megaphone' ></i><p>Announcements</p></li>
+            </a>
+            
+            <a href="/api/floor-leader/assigned-tenants/{{buildingNum}}/{{floorNum}}" class="{{#if (eq activePage 'accounts')}}active{{/if}}">
+                <li><i class='bx bxs-book-content' ></i><p>Tenant Accounts</p></li>
+            </a>
+
+            <a href="/api/floor-leader/billings-ta/{{buildingNum}}/{{floorNum}}" class="{{#if (eq activePage 'billings')}}active{{/if}}">
+                <li><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></li>
+            </a>
+
+            <a href="/api/billings/{{userId}}" class="{{#if (eq activePage 'personal')}}active{{/if}}">
+                <li><i class='bx bxs-user-detail'></i><p>Personal Bills</p></li>
+            </a>
+
+            <a href="/api/tenants/change-password/form" class="{{#if (eq activePage 'changepass')}}active{{/if}}">
+                <li><i class='bx bx-lock'></i><p>Change Password</p></li>
+            </a>
+        </ul>
+
+        {{else if (eq userRole 'building leader')}}
+        <ul>
+            <a href="/dashboard" class="{{#if (eq activePage 'dashboard')}}active{{/if}}">
+                <li><i class='bx bxs-user-rectangle' ></i></i></i><p>Dashboard</p></li>
+            </a>
+            
+            <a href="/api/announcements/all/{{userId}}" class="{{#if (eq activePage 'announcements')}}active{{/if}}">
+                <li><i class='bx bxs-megaphone' ></i><p>Announcements</p></li>
+            </a>
+
+            <a href="/api/building-leader/assigned-tenants/{{buildingNum}}" class="{{#if (eq activePage 'accounts')}}active{{/if}}">
+                <li><i class='bx bxs-book-content' ></i><p>Tenant Accounts</p></li>
+            </a>
+
+            <a href="/api/billings/{{userId}}" class="{{#if (eq activePage 'personal')}}active{{/if}}">
+                <li><i class='bx bxs-user-detail'></i><p>Personal Bills</p></li>
+            </a>
+            
+            <a href="/api/building-leader/billings-cons/{{buildingNum}}" class="{{#if (eq activePage 'billings')}}active{{/if}}">
+                <li><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></li>
+            </a>
+
+            <a href="/api/tenants/change-password/form" class="{{#if (eq activePage 'changepass')}}active{{/if}}">
+                <li><i class='bx bx-lock'></i><p>Change Password</p></li>
+            </a>
+        </ul>
+
+        {{else if (eq userRole 'finance')}}
+        <ul>
+            <a href="/dashboard" class="{{#if (eq activePage 'dashboard')}}active{{/if}}">
+                <li><i class='bx bxs-user-rectangle' ></i></i></i><p>Dashboard</p></li>
+            </a>
+
+            <a href="/api/announcements/all/{{userId}}" class="{{#if (eq activePage 'announcements')}}active{{/if}}">
+                <li><i class='bx bxs-megaphone' ></i><p>Announcements</p></li>
+            </a>
+
+            <a href="/api/tenants/all/{{userId}}" class="{{#if (eq activePage 'accounts')}}active{{/if}}">
+                <li><i class='bx bxs-book-content' ></i><p>Tenant Accounts</p></li>
+            </a>
+
+            <a href="/api/billings/{{userId}}" class="{{#if (eq activePage 'personal')}}active{{/if}}">
+                <li><i class='bx bxs-user-detail'></i><p>Personal Bills</p></li>
+            </a>
+
+            <a href="/api/billings/admin/view-billings" class="{{#if (eq activePage 'billings')}}active{{/if}}">
+                <li><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></li>
+            </a>
+
+            <a href="/api/tenants/change-password/form" class="{{#if (eq activePage 'changepass')}}active{{/if}}">
+                <li><i class='bx bx-lock'></i><p>Change Password</p></li>
+            </a>
+        </ul>
+
+        {{else if (eq userRole 'admin')}}
+        <ul>
+            <a href="/dashboard" class="{{#if (eq activePage 'dashboard')}}active{{/if}}">
+                <li><i class='bx bxs-user-rectangle' ></i></i></i><p>Dashboard</p></li>
+            </a>
+
+            <a href="/api/announcements/all/{{userId}}" class="{{#if (eq activePage 'announcements')}}active{{/if}}">
+                <li><i class='bx bxs-megaphone' ></i><p>Announcements</p></li>
+            </a>
+
+            <a href="/api/reports/admin" class="{{#if (eq activePage 'reports')}}active{{/if}}">
+                <li><i class='bx bxs-inbox'></i><p>Inbox</p></li>
+            </a>
+
+            <a href="/api/tenants/all/{{userId}}" class="{{#if (eq activePage 'accounts')}}active{{/if}}">
+                <li><i class='bx bxs-book-content' ></i><p>Manage Users</p></li>
+            </a>
+
+            <a href="/api/billings/{{userId}}" class="{{#if (eq activePage 'personal')}}active{{/if}}">
+                <li><i class='bx bxs-user-detail'></i><p>Personal Bills</p></li>
+            </a>
+            
+            <a href="/api/billings/admin/view-billings" class="{{#if (eq activePage 'billings')}}active{{/if}}">
+                <li><i class='bx bxs-wallet-alt' ></i><p>Billing Management</p></li>
+            </a>
+
+            <a href="/api/tenants/change-password/form" class="{{#if (eq activePage 'changepass')}}active{{/if}}">
+                <li><i class='bx bx-lock'></i><p>Change Password</p></li>
+            </a>
+        </ul>
+
+        {{else if (eq userRole 'tenant')}}
+        <ul>
+            <a href="/dashboard" class="{{#if (eq activePage 'dashboard')}}active{{/if}}">
+                <li><i class='bx bxs-user-rectangle' ></i></i></i><p>Dashboard</p></li>
+            </a>
+            <a href="/api/announcements/all/{{userId}}" class="{{#if (eq activePage 'announcements')}}active{{/if}}">
+                <li><i class='bx bxs-megaphone' ></i><p>Announcements</p></li>
+            </a>
+
+            <a href="/api/billings/{{userId}}" class="{{#if (eq activePage 'personal')}}active{{/if}}">
+                <li><i class='bx bxs-user-detail'></i><p>Personal Bills</p></li>
+            </a>
+
+            <a href="/api/tenants/change-password/form" class="{{#if (eq activePage 'changepass')}}active{{/if}}">
+                <li><i class='bx bx-lock'></i><p>Change Password</p></li>
+            </a>
+        </ul>
+        {{/if}}
+
+        {{#if userRole}}
+        <ul>
+            <a href="#" onclick="endSession();">
+                <li><i class='bx bx-log-out' ></i><p>Logout</p></li>
+            </a>
+        </ul>
+        
+        {{else}}
+        <ul>
+            <a href="/login">
+                <li><i class='bx bx-log-in'></i><p>Login</p></li>
+            </a>
+        </ul>
+
+        <ul>
+            {{!-- placeholder for spacing --}}
+        </ul>
+        {{/if}}
+    </nav>
+
+    <div class="overlay"></div>
+
+    <div class="main-content">
+        {{{body}}}
+    </div>
+
+    <script>
+        window.userRole = "{{userRole}}";
+        window.userId = "{{userId}}";
+        window.buildingNum = "{{buildingNum}}";
+        window.floorNum = "{{floorNum}}";
+        window.activePage = "{{activePage}}";
+
+        // logging out
+        async function endSession() {
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+        
+                if (response.ok) {
+                    // Handle successful logout
+                    console.log('Session ended successfully');
+                    window.location.href = '/'; // Redirect to login or homepage
+                } else {
+                    // Handle error
+                    const result = await response.json();
+                    console.error(result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
